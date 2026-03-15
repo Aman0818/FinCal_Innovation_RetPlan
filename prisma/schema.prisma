@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// ── User ─────────────────────────────────────────
+model User {
+  id           String   @id @default(uuid())
+  name         String   @db.VarChar(100)
+  email        String   @unique @db.VarChar(255)
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  avatarUrl    String?  @map("avatar_url") @db.VarChar(512)
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  plans     RetirementPlan[]
+  auditLogs AuditLog[]
+
+  @@map("users")
+}
+
+// ── Retirement Plan ──────────────────────────────
+// Each saved plan stores inputs + computed results
+model RetirementPlan {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  name      String   @db.VarChar(120)
+  inputs    Json     // RetirementInputs
+  result    Json     // RetirementResult (snapshot at save time)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scenarios Scenario[]
+  auditLogs AuditLog[]
+
+  @@index([userId])
+  @@map("retirement_plans")
+}
+
+// ── Scenario ─────────────────────────────────────
+// "What-if" scenarios saved against a plan
+model Scenario {
+  id           String   @id @default(uuid())
+  planId       String   @map("plan_id")
+  scenarioType String   @db.VarChar(60) @map("scenario_type")
+  label        String   @db.VarChar(120)
+  altInputs    Json     @map("alt_inputs")  // modified inputs
+  altResult    Json     @map("alt_result")  // computed result for alt inputs
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  plan RetirementPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@map("scenarios")
+}
+
+// ── Audit Log ────────────────────────────────────
+// Track every calculation / save / load for compliance
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?  @map("user_id")
+  planId    String?  @map("plan_id")
+  action    String   @db.VarChar(40)   // "calculate" | "save" | "load" | "delete" | "scenario_compare" | "login" | "signup"
+  payload   Json?                       // snapshot of inputs at time of action
+  ip        String?  @db.VarChar(45)
+  userAgent String?  @db.VarChar(512) @map("user_agent")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User?            @relation(fields: [userId], references: [id], onDelete: SetNull)
+  plan RetirementPlan?  @relation(fields: [planId], references: [id], onDelete: SetNull)
+
+  @@index([action])
+  @@index([planId])
+  @@index([userId])
+  @@map("audit_logs")
+}
