@@ -6,6 +6,32 @@
 
 ---
 
+## Live Demo
+
+**[https://your-deployment-url.vercel.app](https://your-deployment-url.vercel.app)**
+
+> Replace the URL above with your actual deployment link before submission.
+
+---
+
+## Screenshots
+
+### Dashboard & Input Wizard
+![Dashboard](public/screenshots/dashboard.png)
+
+### Results & Projection Chart
+![Results](public/screenshots/results.png)
+
+### Year-by-Year Breakdown
+![Breakdown Table](public/screenshots/breakdown-table.png)
+
+### Mobile View
+![Mobile](public/screenshots/mobile.png)
+
+> Add screenshots to `public/screenshots/` folder and update paths above.
+
+---
+
 ## Overview
 
 A professional, enterprise-grade **Retirement Planning Calculator** built for the HDFC Mutual Fund Hackathon. The tool helps investors understand how much retirement corpus they need and what monthly SIP is required to achieve it — using industry-standard financial formulas, transparent assumptions, and a guided user experience.

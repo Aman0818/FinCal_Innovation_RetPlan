@@ -1,6 +1,5 @@
-import { PrismaClient } from "@/generated/prisma";
+import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaMariaDb } from "@prisma/adapter-mariadb";
-import * as mariadb from "mariadb";
 
 function buildPoolConfig() {
   const raw = process.env.DATABASE_URL!;
@@ -17,8 +16,7 @@ function buildPoolConfig() {
   };
 }
 
-const pool = mariadb.createPool(buildPoolConfig());
-const adapter = new PrismaMariaDb(pool);
+const adapter = new PrismaMariaDb(buildPoolConfig());
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient | undefined };
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
