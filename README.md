@@ -8,9 +8,8 @@
 
 ## Live Demo
 
-**[https://your-deployment-url.vercel.app](https://your-deployment-url.vercel.app)**
+**[https://vercel.app](https://vercel.app)**
 
-> Replace the URL above with your actual deployment link before submission.
 
 ---
 
@@ -25,10 +24,7 @@
 ### Year-by-Year Breakdown
 ![Breakdown Table](public/screenshots/breakdown-table.png)
 
-### Mobile View
-![Mobile](public/screenshots/mobile.png)
 
-> Add screenshots to `public/screenshots/` folder and update paths above.
 
 ---
 
