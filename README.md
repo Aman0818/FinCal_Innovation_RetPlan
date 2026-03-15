@@ -149,7 +149,6 @@ Solve for startingSIP
 | Authentication | NextAuth v5 (Credentials provider, JWT) |
 | Charts | Recharts |
 | Animation | Framer Motion |
-| PDF Export | jsPDF + jsPDF-AutoTable |
 | Icons | React Icons (Lucide) |
 | Security | bcryptjs (12 rounds) |
 
@@ -252,6 +251,3 @@ This tool has been designed for **information purposes only**. Actual results ma
 | Fallback Fonts | Arial, Verdana |
 
 ---
-
-*Investor Education & Awareness Initiative — HDFC Mutual Fund*
-*Built for HDFC Hackathon — IIT BHU*
