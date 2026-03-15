@@ -130,10 +130,32 @@ export default function Home() {
             <>
               {isInPersonalSteps && <StepInputFlow />}
               {isInAssumptions && <AssumptionsPanel onAuthGate={handleAuthGate} />}
-              {showResults && (
+              {showResults && isLoggedIn && (
                 <div className="space-y-12">
                   <ResultsSection onOpenPlans={() => handleViewChange("plans")} />
                   <ScenarioComparison />
+                </div>
+              )}
+              {showResults && !isLoggedIn && (
+                <div
+                  className="rounded-xl p-10 text-center"
+                  style={{ border: "1px solid var(--color-border)", background: "var(--color-card)" }}
+                >
+                  <p className="text-[15px] font-semibold mb-1" style={{ color: "var(--color-foreground)" }}>
+                    Sign in to view your retirement plan
+                  </p>
+                  <p className="text-[13px] mb-5" style={{ color: "var(--color-muted-foreground)" }}>
+                    Your plan has been calculated. Create a free account to see your results.
+                  </p>
+                  <button
+                    onClick={() => setShowAuthModal(true)}
+                    className="px-6 py-2.5 rounded-lg text-[13px] font-bold text-white transition-colors"
+                    style={{ background: "#224c87" }}
+                    onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "#1a3a68")}
+                    onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.background = "#224c87")}
+                  >
+                    Sign In / Register
+                  </button>
                 </div>
               )}
             </>

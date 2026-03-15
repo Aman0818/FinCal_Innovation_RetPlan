@@ -8,8 +8,14 @@
 
 ## Live Demo
 
-**[https://vercel.app](https://vercel.app)**
+**[https://fincal-retirement.vercel.app/](https://fincal-retirement.vercel.app/)**
 
+### Demo Credentials
+
+| Field | Value |
+|---|---|
+| Email | `demo@hdfcretirement.com` |
+| Password | `Demo@12345` |
 
 ---
 

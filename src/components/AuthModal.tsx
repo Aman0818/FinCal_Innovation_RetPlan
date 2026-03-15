@@ -30,8 +30,17 @@ export default function AuthModal({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const DEMO_EMAIL = "demo@hdfcretirement.com";
+  const DEMO_PASSWORD = "Demo@12345";
+
   const switchMode = (m: Mode) => {
     setMode(m);
+    setError("");
+  };
+
+  const fillDemo = () => {
+    setEmail(DEMO_EMAIL);
+    setPassword(DEMO_PASSWORD);
     setError("");
   };
 
@@ -282,6 +291,22 @@ export default function AuthModal({
               </button>
             </div>
           </div>
+
+          {/* Demo credentials — login only */}
+          {mode === "login" && (
+            <button
+              type="button"
+              onClick={fillDemo}
+              className="w-full py-2 rounded-lg text-[12px] font-semibold transition-colors"
+              style={{
+                border: "1px dashed #224c87",
+                color: "#224c87",
+                background: "#eef3fb",
+              }}
+            >
+              Use Demo Credentials
+            </button>
+          )}
 
           {/* Submit */}
           <button

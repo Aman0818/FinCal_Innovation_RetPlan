@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \":*)",
+      "Bash(node scripts/seed-demo.mjs)",
+      "Bash(npx prisma:*)"
+    ]
+  }
+}

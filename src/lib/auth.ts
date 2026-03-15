@@ -7,7 +7,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
   session: { strategy: "jwt" },
   pages: {
-    signIn: "/", // we handle auth with a modal, not a page
+    signIn: "/",  // we handle auth with a modal, not a page
+    error: "/",   // redirect all NextAuth errors back to home, never to /api/auth/error
   },
   providers: [
     Credentials({
@@ -18,25 +19,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email as string },
+          });
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email as string },
-        });
+          if (!user) return null;
 
-        if (!user) return null;
+          const valid = await compare(
+            credentials.password as string,
+            user.passwordHash
+          );
+          if (!valid) return null;
 
-        const valid = await compare(
-          credentials.password as string,
-          user.passwordHash
-        );
-        if (!valid) return null;
-
-        return {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          image: user.avatarUrl,
-        };
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            image: user.avatarUrl,
+          };
+        } catch {
+          return null; // DB error → return null, modal shows "Invalid credentials" instead of redirecting
+        }
       },
     }),
   ],
